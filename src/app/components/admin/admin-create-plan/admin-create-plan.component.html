@@ -1,0 +1,96 @@
+<app-admin-nav></app-admin-nav>
+
+
+<div class=" mt-2">
+    <form [formGroup]="form" (submit)="onSubmit()" class="max-w-lg mx-auto">
+        <div class="mb-4">
+            <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+            <input type="text" name="name" id="name" formControlName="name" placeholder="Name of the plan"
+                class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+            <app-common-validation [generalControl]="form.get('name')" [isSubmitted]="isSubmittd"></app-common-validation>
+        </div>
+
+        <div class="mb-4">
+            <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+            <input type="text" name="description" id="description" formControlName="description"
+                placeholder="Description of the plan"
+                class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+            <app-common-validation [generalControl]="form.get('description')" [isSubmitted]="isSubmittd"></app-common-validation>
+        </div>
+
+        <div class="mb-4">
+            <label for="duration" class="block text-gray-700 font-bold mb-2">Duration</label>
+            <input type="number" name="duration" id="duration" formControlName="duration"
+                placeholder="Duration of the plan" class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+                <app-common-validation [generalControl]="form.get('duration')" [isSubmitted]="isSubmittd"></app-common-validation> 
+                <p *ngIf="form.get('duration')?.errors?.['min']&& isSubmittd" class="text-red-500">Duration Cannot be less than 2</p>   
+            </div>
+
+        <div class="mb-4">
+            <label for="price" class="block text-gray-700 font-bold mb-2">Price</label>
+            <input type="number" name="price" id="price" formControlName="price" placeholder="Price of the plan"
+                class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+            <p  *ngIf="this.form.get('price')?.errors?.['required' ]&& isSubmittd" class="text-red-600">Price is Required</p>
+            <p  *ngIf="this.form.get('price')?.errors?.['min' ]&& isSubmittd" class="text-red-600">Price has to be minimum 100</p>
+            <p  *ngIf="this.form.get('price')?.errors?.['max' ]&& isSubmittd" class="text-red-600">Price cannot be more than 1000</p>
+        </div>
+
+        <div class="mb-4">
+            <label for="type" class="block text-gray-700 font-bold mb-2">Type</label>
+                <select name="type" id="type"  formControlName="type" class="form-control"  >
+                    <option value="user">User</option>
+                    <option value="employer">Employer</option>
+                </select>
+
+            <p class="text-red-600" *ngIf="form.get('type')?.errors?.['required']">Type required</p>
+        </div>
+
+
+        <!-- <div formArrayName="features">
+            <div *ngFor="let feature of featuresForm.controls; let i =index" class="mb-4">
+                <div class="flex items-center space-x-3">
+                    <label for="feature" class="block text-gray-700 font-bold mb-2">Feature</label>
+                    <input type="text" placeholder="Feature" [formControlName]="i"
+                        class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+                    <button type="button" (click)="removeFeature(i)"
+                        class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Remove
+                        Feature</button>
+                    <p *ngIf="feature?.errors?.['required'] && isSubmittd" class="text-red-500">Feature is required</p>
+                </div>
+            </div> 
+            <p *ngIf="form.get('features')?.errors?.['required'] && isSubmittd" class="text-red-600">Atleast One Feature is required</p>
+            <button type="button" (click)="addFeature()" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Add Feature</button>
+
+        </div> -->
+
+        <div formGroupName="features">
+            <div class="mb-4">
+                <label for="jobApplications" class="block text-gray-700 font-bold mb-2">Job Posting / Applcations</label>
+                <input type="number" placeholder="Job Applications" formControlName="jobApplications"
+                    class="p-2 ring-2 rounded-lg w-full focus:ring-2 focus:ring-indigo-500">
+                 <p *ngIf="form.get('features')?.get('jobApplications')?.errors?.['required'] && isSubmittd" class="text-red-500">Field is required</p>
+                 <p *ngIf="form.get('features')?.get('jobApplications')?.errors?.['min'] && isSubmittd" class="text-red-500">Minimum value is 10</p>   
+            </div>
+        
+            <div class="mb-4">
+                <label for="unlimitedSearch" class="block text-gray-700 font-bold mb-2">Unlimited Search</label>
+                <input type="checkbox" formControlName="unlimitedSearch" class="mr-2">
+                <span class="text-gray-600">Enable Unlimited Search</span>
+            </div>
+        
+            <div class="mb-4">
+                <label for="employerChat" class="block text-gray-700 font-bold mb-2">Employer Chat</label>
+                <input type="checkbox" formControlName="chatFacility" class="mr-2">
+                <span class="text-gray-600">Enable  Chat</span>
+            </div>
+        
+        
+            <p *ngIf="form.get('features')?.errors?.['required'] && isSubmittd" class="text-red-600">At least one feature is required</p>
+        </div>
+        
+
+
+        <button type="submit"
+            class="w-full block mt-6 rounded-full bg-amber-400 hover:bg-amber-600 hover:shadow-lg font-semibold text-gray-800 px-6 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">Save</button>
+    </form>
+</div>

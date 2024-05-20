@@ -1,0 +1,208 @@
+<app-employer-nav></app-employer-nav>
+
+
+<div class="flex h-screen p-1">
+    <div class="w-3/12 bg-gray-200 p-3 overflow-y-auto">
+        <!-- Search Bar -->
+        <!-- <div class="mb-4">
+            <input type="text" placeholder="Search users..."
+                class="w-full px-2 py-1 border rounded focus:outline-none focus:border-blue-500">
+        </div> -->
+
+        <div *ngFor="let user of users; index as i">
+            <a (click)="onSelectUser(user, i)">
+                <div class="flex items-center space-x-4 mb-4 relative">
+                    <span class="absolute top-1/2 right-2 transform -translate-y-1/2 h-4 min-w-4 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs p-2">{{ user.unreadCount }}</span>
+                    <!-- <img *ngIf="user.profilePic" [src]="imageFolderPath + user.profilePic" alt="User 1" class="w-8 h-8 rounded-full"> -->
+                    <div  class="rounded-full h-8 w-8 border-2 border-amber-300 hover:border-amber-500 bg-black text-amber-300 hover:text-amber-500 text-center align-middle">
+                        <span class="flex items-center justify-center h-full">
+                          {{ user.name | slice:0:1 | uppercase }}
+                        </span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-gray-800">{{ user.name }}</span>
+                        <!-- <span class="text-gray-600">Online</span> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="!currUser" class="flex items-center justify-center w-full h-full">
+        <div class="text-center">
+          <h2 class="text-2xl font-bold mb-4">Select anyone to start chatting</h2>
+          <p class="text-gray-500">Choose a user or theater to begin your conversation.</p>
+        </div>
+    </div>
+
+    <!-- Chat Section (9-width) with padding -->
+    <div *ngIf="currUser" class="flex items-center justify-center w-full h-full">
+        <div  class="flex-1 justify-between flex flex-col h-screen bg-white">
+
+        <div class="flex-1 sm:p-6 justify-between flex flex-col h-screen">
+            <div class="flex sm:items-center justify-between py-1 border-b-2 border-gray-200">
+                <div class="relative flex items-center space-x-4">
+
+                    <!-- <img *ngIf="currUser.profilePic"  [src]="imageFolderPath + currUser.profilePic" [alt]="currUser.name + 'Profile'" class="w-8 sm:w-16 h-8 sm:h-16 rounded-full"> -->
+                    <div  class="w-8 sm:w-16 h-8 sm:h-16 rounded-full border-2 border-amber-300 hover:border-amber-500 bg-black text-amber-300 hover:text-amber-500 text-center align-middle">
+                        <span class="flex items-center justify-center h-full text-2xl">
+                          {{ currUser.name | slice:0:1 | uppercase }}
+                        </span>
+                    </div>
+                    <!-- </div> -->
+                    <div class="flex flex-col leading-tight">
+                        <div class="text-xl mt-1 flex items-center">
+                            <span class="text-gray-700 mr-3">{{ currUser.name }}</span>
+                        </div>
+                        <!-- <span class="text-xs text-gray-600">Online</span> -->
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="messages" #messagesContainer
+                class="flex flex-col justify-start space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+
+                <!-- <div *ngFor="let chat of chats" class="chat-message">
+                    <ng-container *ngIf="chat.sender === 'User'; else employerMessage">
+                      <div class="flex items-end">
+                        <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                          <div >
+                            <span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
+                              {{ chat.message }}
+                            </span>
+                          </div>
+                          <div class="text-right text-xs text-gray-500 mt-1">{{ chat.time | date:'h:mm a' }}</div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="Theater profile" class="w-6 h-6 rounded-full order-1">
+                      </div>
+                    </ng-container>
+                    <ng-template #employerMessage>
+                      <div class="flex items-end justify-end">
+                        <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                          <div>
+                            <span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white">
+                              {{ chat.message }}
+                            </span>
+                          </div>
+                          <div class="text-right text-xs text-gray-500 mt-1">{{ chat.time | date:'h:mm a' }}</div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="User profile" class="w-6 h-6 rounded-full order-2">
+                      </div>
+                    </ng-template>
+                  </div> -->
+
+
+
+                  <div *ngFor="let chat of chats" class="chat-message">
+                    <ng-container *ngIf="chat.sender === 'User'; else employerMessage">
+                      <div class="flex items-end">
+                        <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                            <div *ngIf="isAudioMessage(chat.message) else otherMessage">
+                                <audio [src]="getAudioUrl(chat.message)" controls></audio>
+                              </div>
+    
+    
+                              <ng-template #otherMessage>
+                                <div *ngIf="isImageMessage(chat.message); else textMessage">
+                                    <img [src]="getMediaUrl(chat.message)" alt="Chat image" width="200">
+                                </div>
+                                <ng-template #textMessage>
+                                    <span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white">
+                                      {{ chat.message }}
+                                    </span>
+                                  </ng-template>
+                              </ng-template>
+
+
+                            <!-- <span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
+                              {{ chat.message }}
+                            </span> -->
+                          
+                          <div class="text-right text-xs text-gray-500 mt-1">{{ chat.time | date:'h:mm a' }}</div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="employer profile" class="w-6 h-6 rounded-full order-1">
+                      </div>
+                    </ng-container>
+                    <ng-template #employerMessage>
+                      <div class="flex items-end justify-end" >
+                        <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                          <div *ngIf="isAudioMessage(chat.message) else otherMessage">
+                            <audio [src]="getAudioUrl(chat.message)" controls></audio>
+                          </div>
+
+
+                          <ng-template #otherMessage>
+                            <div *ngIf="isImageMessage(chat.message); else textMessage">
+                                <img [src]="getMediaUrl(chat.message)" alt="Chat image" width="200">
+                            </div>
+                            <ng-template #textMessage>
+                                <span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white">
+                                  {{ chat.message }}
+                                </span>
+                              </ng-template>
+                          </ng-template>
+                          
+                          <div class="text-right text-xs text-gray-500 mt-1">{{ chat.time | date:'h:mm a' }}</div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="User profile" class="w-6 h-6 rounded-full order-2">
+                      </div>
+                    </ng-template>
+                  </div>
+
+            </div>
+            <div class="border-t-2 border-gray-200 px-4 py-2 sm:mb-0">
+                <div class="relative flex">
+                    <input type="text" placeholder="Write your message!" [(ngModel)]="message"
+                        class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3">
+                        <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                            <div class="audio-recorder flex items-center">
+                              <button class="record-button" (click)="toggleRecording()">
+                                {{isRecording ? 'Stop Recording' : 'Record Audio'}}
+                              </button>
+                              <button class="send-button ml-2" (click)="sendAudioMessage()" [disabled]="!audioBlob">
+                                Send
+                              </button>
+                              <audio #audioPlayback controls class="ml-2"></audio>
+                            </div>
+    
+                            <!-- image upload -->
+                            <div class="image-uploader flex items-center ml-4">
+                                <input type="file" (change)="fileSelected($event)" class="hidden" #fileInput>
+                                <button class="upload-button" (click)="fileInput.click()">Upload Image</button>
+                                <button class="send-button ml-2" (click)="sendImage()" [disabled]="!selectedImage">
+                                  Send
+                                </button>
+                                <img *ngIf="previewImageUrl" [src]="previewImageUrl" class="ml-2" alt="Image preview" width="100">
+                            </div>
+    
+    
+                            <button type="button" (click)="sendMessage()"
+                              class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none ml-4">
+                              <span class="font-bold">Send</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="h-6 w-6 ml-2 transform rotate-90">
+                                <path
+                                  d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                                </path>
+                              </svg>
+                            </button>
+              </div>
+            </div>
+        </div>
+
+        <!-- End of chat  -->
+    </div>
+</div>
+</div>
+
+<script>
+    const el = document.getElementById('messages')
+    el.scrollTop = el.scrollHeight
+</script>
+

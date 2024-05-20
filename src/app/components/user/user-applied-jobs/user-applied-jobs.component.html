@@ -1,0 +1,27 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="border-t border-gray-200">
+        <!-- Saved jobs list goes here -->
+        <div class="px-4 py-4 sm:px-6 " *ngFor="let job of userApplication">
+          <!-- Sample saved job item -->
+          <div class="mb-4">
+            <h4 class="text-lg font-bold text-gray-900"><span class="text-lg font-bold">Title : </span>{{job.jobTitle}}</h4>
+            <p class="text-sm text-gray-500">Location : {{job.jobLocation}}</p>
+            <p class="text-sm text-gray-500">JobId :  {{ (job.jobId | slice:0:6) || 'N/A' }}</p>
+            <p class="text-sm text-gray-500">Applied Date : {{job.appliedTime | date }}</p>
+            <p class="text-sm text-gray-500">Cover Letter :  {{job.coverLetter }}</p>
+            <p class="text-lg bg-blue-300 p-2 text-white mt-1 rounded-lg w-40  text-center">{{job.status}} </p>
+          </div>
+          <!-- Repeat this structure for each saved job item -->
+        </div>
+      </div>
+    </div>
+    <div class="mt-1">
+      <div class="flex justify-center">
+        <button (click)="onPageChange(pageNumber-1)" [disabled]="pageNumber===1">Prev </button>
+        <span>{{pageNumber}} of {{max}}</span>
+        <button (click)="onPageChange(pageNumber+1)" [disabled]="pageNumber===max"> Next</button>
+      </div>
+    </div>
+  </div>
+  
