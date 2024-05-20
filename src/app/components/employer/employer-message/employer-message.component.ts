@@ -8,6 +8,8 @@ import { UserService } from 'src/app/services/user.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { imagesFolderPath } from 'src/app/shared/constants';
 import { selectEmployerDetails } from 'src/app/states/employer/employrer.selector';
+import { environment } from 'src/environments/environment.development';
+
 
 @Component({
   selector: 'app-employer-message',
@@ -172,7 +174,7 @@ isAudioMessage(message: string): boolean {
 }
 
 getAudioUrl(message: string): SafeUrl {
-  return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/audios/${message}`);
+  return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}+audios/${message}`);
 }
 
 
@@ -199,7 +201,7 @@ isImageMessage(message: string): boolean {
 }
 
 getMediaUrl(message: string): SafeUrl {
-  return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/images/${message}`);
+  return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}+images/${message}`);
 }
 
 

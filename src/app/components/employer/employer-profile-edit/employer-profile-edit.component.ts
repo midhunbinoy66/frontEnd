@@ -11,6 +11,7 @@ import { ZipRegex } from 'src/app/shared/constants';
 import { mobileValidators, nameValidators, requiredValidator } from 'src/app/shared/validators';
 import { saveEmployerOnStore } from 'src/app/states/employer/employer.action';
 import { selectEmployerDetails } from 'src/app/states/employer/employrer.selector';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-employer-profile-edit',
@@ -55,7 +56,7 @@ export class EmployerProfileEditComponent implements OnInit {
         this.employerId = this.user._id;
         this.profileForm.get('name')?.setValue(this.user.name);
         this.profileForm.get('mobile')?.setValue(this.user.mobile);
-        if(this.user.profilePic !== undefined) this.dpurl = 'http://localhost:3000'+`'/images/${this.user.profilePic}`
+        if(this.user.profilePic !== undefined) this.dpurl = `${environment.baseUrl}`+`images/${this.user.profilePic}`
         console.log(this.user);
         if(this.user.address !== null){
           this.city = String(this.user.address?.city)

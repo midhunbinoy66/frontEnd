@@ -10,6 +10,8 @@ import { UserService } from 'src/app/services/user.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { imagesFolderPath } from 'src/app/shared/constants';
 import { selectUserDetails } from 'src/app/states/user/user.selector';
+import { environment } from 'src/environments/environment.development';
+
 
 @Component({
   selector: 'app-user-messages',
@@ -176,7 +178,7 @@ export class UserMessagesComponent implements OnInit ,OnDestroy{
   }
 
   getAudioUrl(message: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/audios/${message}`);
+    return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}`+`audios/${message}`);
   }
 
 
@@ -203,7 +205,7 @@ export class UserMessagesComponent implements OnInit ,OnDestroy{
   }
 
   getMediaUrl(message: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/images/${message}`);
+    return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}`+`images/${message}`);
   }
 
 }
