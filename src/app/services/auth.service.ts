@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IApiTokenRes } from '../models/users';
-
-const  baseUrl  = 'http://localhost:3000/'
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +26,6 @@ export class AuthService {
     //   Authorization: `Bearer ${refreshToken}`,
     //   'Bypass-Interceptor': 'true'
     // })
-    return this.http.get<IApiTokenRes>(`${baseUrl}token`, httpOptions)
+    return this.http.get<IApiTokenRes>(`${environment.baseUrl}token`, httpOptions)
   }
 }
