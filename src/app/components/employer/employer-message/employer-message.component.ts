@@ -201,7 +201,7 @@ isImageMessage(message: string): boolean {
 }
 
 getMediaUrl(message: string): SafeUrl {
-  return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}+images/${message}`);
+  return this.sanitizer.bypassSecurityTrustUrl(`${environment.baseUrl}`+`images/${message}`);
 }
 
 

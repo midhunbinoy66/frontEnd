@@ -6,11 +6,11 @@
           <!-- Sample saved job item -->
           <div class="mb-4">
             <h4 class="text-lg font-bold text-gray-900"><span class="text-lg font-bold">Title : </span>{{job.jobTitle}}</h4>
-            <p class="text-sm text-gray-500">Location : {{job.jobLocation}}</p>
-            <p class="text-sm text-gray-500">JobId :  {{ (job.jobId | slice:0:6) || 'N/A' }}</p>
-            <p class="text-sm text-gray-500">Applied Date : {{job.appliedTime | date }}</p>
-            <p class="text-sm text-gray-500">Cover Letter :  {{job.coverLetter }}</p>
-            <p class="text-lg bg-blue-300 p-2 text-white mt-1 rounded-lg w-40  text-center">{{job.status}} </p>
+            <p class="text-sm text-gray-800">Location : {{job.jobLocation}}</p>
+            <p class="text-sm text-gray-800">JobId :  {{ (job.jobId | slice:0:6) || 'N/A' }}</p>
+            <p class="text-sm text-gray-800">Applied Date : {{job.appliedTime | date }}</p>
+            <p class="text-sm text-gray-800">Cover Letter :  {{job.coverLetter }}</p>
+            <p class="text-md bg-blue-800 p-2 text-white mt-1 rounded-lg w-40  text-center">{{job.status|uppercase}} </p>
           </div>
           <!-- Repeat this structure for each saved job item -->
         </div>

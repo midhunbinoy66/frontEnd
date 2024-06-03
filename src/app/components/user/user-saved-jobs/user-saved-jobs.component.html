@@ -17,7 +17,7 @@
 
   <!-- pagination -->
   <div class="mt-1">
-    <div class="flex justify-center">
+    <div class="flex justify-center" *ngIf="savedJobs!.length>0">
       <button (click)="onPageChage(pageNumber-1)" [disabled]="pageNumber===1">Prev </button>
       <span>{{pageNumber}} of {{max}}</span>
       <button (click)="onPageChage(pageNumber+1)" [disabled]="pageNumber === max"> Next</button>
